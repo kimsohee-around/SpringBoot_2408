@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Session 어노테이션 연습</h1>
+    <span>[[${session.url}]]- 세션 스콥의 url 애트리뷰트 값</span>
+    <hr>
+    <span>[[${url}]] - 스콥 지정하지 않은 url 애트리뷰트 값</span>
+    <hr>
+    <span> url 이라는 이름의 애트리뷰트값을 가져올 때 스콥 범위가 작은 순서로 찾습니다.</span>
+    <h2>세션에 저장된 애트리뷰트는 브라우저가 종료되거나 삭제 될때까지 사용할 수 있습니다.</h2>
+    <!-- /sample 에서 userDTO 를 저장하지 않았다면 오류.
+         그러나 /sample 를 한번이라도 실행하면 오류 없어야 합니다.
+      -->
+    <ul th:if="${session.userDTO !=null}">
+        <li>[[${session.userDTO.name}]]</li>
+        <li>[[${session.userDTO.email}]]</li>
+        <li>[[${session.userDTO.tel}]]</li>
+        <li>[[${session.userDTO.password}]]</li>
+    </ul>
+    <ul th:if="${memberDTO !=null}">
+        <li>[[${memberDTO.name}]] : request 스콥에서
+            가져온 memberDTO 애트리뷰트
+        </li>
+        <li>[[${memberDTO.email}]]</li>
+        <li>[[${memberDTO.tel}]]</li>
+        <li>[[${memberDTO.password}]]</li>
+    </ul>
+    <p> @SessionAttribute 는 세션 스콥에서 값을 가져오는 동작을 합니다.
+        @ModelAttribute 는 요청에서 값을 가져와 DTO 에 저장하고, 그 값을 그대로
+        템플릿(타임리프 html)에 전달 합니다. => request 스콥입니다.
+    </p>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="org.iclass.board.dao.BookMemberMapper">
+
+	<!-- 스프링시큐리티에서 username 역할을 하는 email 주소로 조회 필요 : 로그인-->
+	<select id="selectByUsername" parameterType="String" resultType="BookMemberDTO">
+			select * from TBL_BOOK_MEMBER
+			where EMAIL =#{email}
+	</select>
+
+	<!-- 지금까지 사용해던 SQL -->
+ 	<insert id="insert" parameterType="BookMemberDTO"
+ 	                        useGeneratedKeys="false" >
+ 	<!--  스프링 시큐리티에서 사용할 권한(role) 컬럼을 추가로 저장  -->
+ 		INSERT INTO tbl_book_member
+ 			(mem_idx,name,email,tel,password,roles)
+		VALUES 
+			(memidx_seq.nextval,
+					#{name},#{email}, #{tel}, #{password},#{roles})
+	
+	
+	<!-- insert 후에 증가된 시퀀스값 (insert 된 idx값) 가져오기 
+			: 파라미터 "dto에 mem_idx 필드"(keyProperty="mem_idx")에 저장하기-->	
+		<selectKey keyProperty="mem_idx" resultType="int" order="AFTER">
+			SELECT memidx_seq.currval 
+			FROM dual
+		</selectKey>	
+ 	</insert>  
+ 	<!-- null 허용한 컬럼은 타입을 알려주어 NULL 이 입력되도록 한다. -->
+ 	<!--회원 이메일과 전화번호 수정-->
+ 	<update id="update" parameterType="BookMemberDTO">
+	 	UPDATE tbl_book_member
+		SET 
+			email=#{email}, tel=#{tel} 
+		WHERE 
+			mem_idx=#{mem_idx}
+ 	</update>
+ 	
+ 	<!--회원 삭제-->
+ 	<delete id="delete" parameterType="int">
+ 		DELETE FROM 
+ 			tbl_book_member
+ 		WHERE 
+ 			mem_idx=#{mem_idx}
+ 	</delete>
+
+	<!-- 회원 목록-->
+	<select id="selectAll" resultType="BookMemberDTO">
+			SELECT *
+			FROM TBL_BOOK_MEMBER
+	</select>
+
+ 	<!--회원 조회-->
+ 	<select id="selectByIdx" parameterType="int" 
+ 			resultType="BookMemberDTO">
+ 		SELECT * 
+ 		FROM 
+ 			tbl_book_member 
+ 		WHERE 
+ 			mem_idx=#{mem_idx}   
+ 	</select>
+ </mapper>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <h2>글 수정</h2>
+    <div class="col-8"><hr>
+        <div class="card">
+            <div class="card-header">
+                Welcome! Community - 글 수정
+            </div>
+            <div class="card-body">
+                <!-- ? 뒤의 파라미터는 GET 방식 요청.  form 태그 안의 값은 post 요청.-->
+                <form th:action="|@{modify}?${requestDTO.link}|" method="post">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text col-2">번호</span>
+                        <label class="col-8">
+                            <input name="idx" class="form-control" th:value="${dto.idx}" disabled>
+                            <input name="idx" type="hidden" th:value="${dto.idx}">
+                        </label>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text col-2">제목</span>
+                        <label class="col-8">
+                            <input class="form-control" th:value="${dto.title}" disabled>
+                            <input name="title"  type="hidden"
+                                   th:value="${#strings.startsWith(dto.title, '(수정)') ? dto.title : '(수정)' + dto.title }" >
+                        </label>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text col-2">작성자</span>
+                        <label class="col-8">
+                            <input name="writer" class="form-control" th:value="${dto.writer}" disabled>
+                        </label>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text col-2">작성날짜</span>
+                        <label class="col-8">
+                            <input name="createdAt" class="form-control" th:value="${dto.createdAt}"disabled>
+                        </label>
+                    </div>
+                    <div class="input-group mb-3">
+                    <span class="input-group-text col-2">조회수</span>
+                    <label class="col-8">
+                        <input name="readCount" class="form-control" th:value="${dto.readCount}" disabled>
+                    </label>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text col-2">내용</span>
+                        <label class="col-8">
+                            <textarea name="content" class="form-control" rows="8" style="resize: none;" th:text="${dto.content}"></textarea>
+                        </label>
+                    </div>
+                    <div class="my-4">
+                        <div class="float-end">
+                            <a th:href="|@{list}?${requestDTO.link}|">
+                                <button type="button" class="btn btn-primary">목록</button>
+                            </a>
+                            <button type="submit" class="btn btn-info">저장</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+</body>

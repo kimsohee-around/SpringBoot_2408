@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>5_kakaoApiSampleUI.html</title>
+</head>
+<body>
+      <h3>카카오 API 테스트</h3>
+      <div>
+          <label for="query">
+              <input id="query" placeholder="검색어를 입력하세요.">
+          </label>
+          <label for="page">
+            <input id="page" placeholder="검색 페이지 번호 입력하세요." type="number">
+          </label>
+          <label for="size">
+            <input id="size" placeholder="페이지 크기를 입력하세요." type="number">
+          </label>
+          <label for="accuracy">
+               <input type="radio" id="accuracy" name="sort" checked> 정확도순
+          </label>
+          <label for="recency">
+              <input type="radio" id="recency" name="sort"> 최신순
+          </label>
+          <button id="search">검색</button>
+      </div>
+      <hr>
+      <h3>검색 결과</h3>
+      <div id="list"></div>
+      <script type="text/javascript" src="5_kakaoApi.js"></script>
+</body>
+</html>

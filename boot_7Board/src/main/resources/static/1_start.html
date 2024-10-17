@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>1_start.html</title>
+     <!--  script 태그 위치가 head 안에 있을 때는
+           랜더링하기 전에 실행이 됩니다.
+           function 을 정의하면 실행은 안하고 정의만....
+
+      -->
+      <script>
+          test();     //뒤에 정의되 함수 끌어올리기로 실행 됩니다.
+          selectRoot();
+          function test(){
+              console.log("오랜만에 자바스크립트!!")
+          }
+
+          function selectRoot(){
+              const root= document.getElementById('root');
+              console.log(root);
+          }
+      </script>
+        <!-- selectRoot() 를 head 태그안에서 실행하면 요소에 대한
+             초기화를 못하고 null 이 출력.
+        -->
+</head>
+<body>
+     <!-- script 태그가 body 안에 있을 때는 (body 태그 사이사이에 작성 가능)
+          랜더링 하면서 순차적으로 실행이 됩니다.-->
+     <div id="root">여기가 루트 요소 입니다.</div>
+
+  <script>
+
+        selectRoot();
+
+
+  </script>
+</body>
+</html>

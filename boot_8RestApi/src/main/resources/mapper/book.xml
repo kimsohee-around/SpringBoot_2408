@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <!-- 도서 등록, 도서 삭제, 도서 조회 -->
+ <mapper namespace="org.iclass.rest.dao.BookMapper">
+	 <!-- 도서 검색 -->
+	 <select id="searchList" 
+	 			parameterType="PageReqDTO"
+	 			resultType="BookDTO">
+		 select * 
+		 	from tbl_book
+		 	<include refid="search"/>
+		 	order by title
+	 </select>
+	 
+	 <sql id="search">
+		 <where>  
+			 <if test="types !=null and types.length >0">
+		 			<foreach collection="types" item="type" 
+		 					open="(" close=")" separator=" OR ">
+		 				<if test="type=='t'.toString()"> 
+							 title like '%' || #{keyword} || '%' 
+						</if>
+		 				<if test="type=='w'.toString()"> 
+							 writer like '%' || #{keyword} || '%' 
+						</if>
+		 			</foreach>
+	 		</if>
+		 </where>
+	 </sql> 
+	 
+  	<!--도서 등록-->
+ 	<insert id="insert" parameterType="BookDTO">
+ 		INSERT INTO tbl_book
+ 			(bcode,title,writer,publisher) 
+		VALUES 
+			(#{bcode},#{title}, #{writer}, #{publisher})
+ 	</insert>
+ 	
+ 	<!--도서 삭제-->
+ 	<delete id="delete" parameterType="String">
+ 		DELETE FROM 
+ 			tbl_book
+ 		WHERE 
+ 			bcode=#{bcode}
+ 	</delete>
+ 	
+   <!--도서 조회-->
+ 	<select id="selectByBcode" parameterType="String" 
+ 			resultType="BookDTO">
+ 		SELECT * 
+ 		FROM 
+ 			tbl_book
+ 		WHERE 
+ 			bcode=#{bcode}   
+ 	</select>
+ </mapper>

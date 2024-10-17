@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>4_kakaoApiSample.html</title>
+</head>
+<body>
+    <button id="execute">카카오 API 실행</button>
+    <script>
+      const testKakao = () =>{
+
+        const xhr = new XMLHttpRequest();
+        //파라미터 설정 : 카카오 문서 참고
+        let query = '뉴진스';
+        let sort = 'accuracy';
+        let page = 3;
+        let size = 5;
+        let params = `?query=${query}&sort=${sort}&page=${page}&size=${size}`
+        //요청 url
+        xhr.open('GET',`https://dapi.kakao.com/v2/search/web${params}`);     //메소드,url
+        xhr.setRequestHeader('Authorization','KakaoAK 040548049c66599f6c14e5b2374620c0');
+        xhr.send();       //요청 전송
+
+        //응답 처리. 콜백함수
+        xhr.onload = ()=>{
+          if(xhr.status === 200) {
+            alert('카카오 검색 응답을 받았습니다.');
+            let resp = xhr.response   //문자열
+            console.log(resp)
+            let respObj = JSON.parse(resp)
+              console.log(respObj)
+              console.log(respObj.documents)
+          }
+        } //onload end
+      } //testKakao end
+
+      document.getElementById('execute').addEventListener('click',testKakao);
+
+    </script>
+</body>
+</html>

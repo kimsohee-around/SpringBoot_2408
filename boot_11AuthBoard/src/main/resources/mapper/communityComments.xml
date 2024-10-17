@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="org.iclass.board.dao.CommunityCommentsMapper">
+   <!-- 댓글 등록-->
+   <insert id="insert" parameterType="CommentDTO" useGeneratedKeys="false">
+        INSERT INTO COMMUNITYCOMMENTS
+            (IDX,MREF,WRITER,CONTENT,CREATEDAT,IP)
+        VALUES
+            (comment_idx_seq.nextval,
+             #{mref},#{writer},#{content},sysdate,#{ip,jdbcType=VARCHAR})
+       <selectKey keyProperty="idx" resultType="int" order="AFTER">
+           SELECT comment_idx_seq.currval
+           FROM dual
+       </selectKey>
+   </insert>
+   <!-- 댓글 삭제-->
+   <delete id="delete" parameterType="int">
+        DELETE FROM COMMUNITYCOMMENTS WHERE idx = #{idx}
+   </delete>
+   <!-- 댓글 리스트-->
+   <select id="getCommentList" resultType="CommentDTO" parameterType="int">
+        SELECT * FROM COMMUNITYCOMMENTS
+            WHERE mref = #{mref}
+            order by idx desc
+   </select>
+   <!--댓글 개수 업데이트
+        테이블 community 를 수정하는 SQL 이지만 댓글 관련이므로 여기에 작성함.
+   -->
+   <update id="plusCommentCount" parameterType="int">
+        update community set commentCount = commentCount + 1 where idx = #{mref}
+   </update>
+   <update id="minusCommentCount" parameterType="int">
+        update community set commentCount = commentCount - 1 where idx = #{mref}
+   </update>
+    <select id="selectMrefByIdx" parameterType="int"
+            resultType="int">
+        select mref
+        from COMMUNITYCOMMENTS
+        where idx=#{idx}
+    </select>
+    <select id="selectByIdx" parameterType="int" resultType="CommentDTO">
+        select *
+        from COMMUNITYCOMMENTS
+        where idx=#{idx}
+    </select>
+ </mapper>

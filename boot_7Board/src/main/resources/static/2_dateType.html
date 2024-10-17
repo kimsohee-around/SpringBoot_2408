@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>2_dateType</title>
+    <script>
+      console.log('1. 현재 날짜와 시간');
+      console.log(new Date());        // 자바 java.util.Date 클래스 메소드와 공통점 많아요.
+      console.log('2. 날짜 지정하기');
+      console.log(new Date(2024, 9, 1));    // 10월
+      console.log(new Date('2024-9-1'));
+      console.log('3. 날짜,시간 지정하기')
+      console.log(new Date(2024, 8, 1,10,7,33));    // 9월
+      console.log(new Date('2024-9-1 10:7:33'));
+      console.log('4. 세계 표준시간 - UTC');
+      console.log(new Date().toUTCString());
+      console.log('5. 세계 표준시간 - ISO');
+      console.log(new Date().toISOString());    // 자바 LocalDateTime 형식 같음
+      console.log('6. 현지(로컬,운영체제) 시간 - UTC')
+      console.log(new Date().toLocaleString());    // korea 날짜 출력하는 형식
+      console.log('7. long 타입 시간값 (1970년 1월1일 0시 기준 ms 단위)')
+      console.log(new Date().getTime())
+      console.log('8. 날짜 및 시간 관련 메소드')
+      let today = new Date()
+      console.log('8-1) 년도 : ' + today.getFullYear())
+      console.log('8-2) 월 : ' + today.getMonth())
+      //getMonth() 실행 결과는 0~11 범위의 number 타입 값
+      console.log('8-3) 일 : ' + today.getDate())
+      console.log('8-4) 시 : ' + today.getHours())
+      console.log('8-5) 분 : ' + today.getMinutes())
+      console.log('8-6) 초 : ' + today.getSeconds())
+      console.log('9.날짜변경 메소드')
+      today.setFullYear(today.getFullYear()+3)    //new Date() 기준 +3년으로 날짜변경
+      console.log('1) 3년후 날짜  : ' + today)
+      today = new Date()
+      today.setFullYear(today.getFullYear()-3)
+      console.log('2) 3년전 날짜  : ' + today)
+
+      today = new Date()
+      today.setMonth(today.getMonth()+20)
+      console.log('3) 20개월 이후 날짜 : ' + today)     // 1년 6개월 후
+
+      // 문제. 여러분의 생일을 출력하고 탄생 10000일 기념날짜를 계산해서 출력해보세요.
+      //
+      let mybirth = new Date('2000-1-1');
+      let mybirth10000 = mybirth.getDate() + 10000;
+      console.log(mybirth10000);    //정수 10001
+      console.log('나의 생일 : ', mybirth);
+      mybirth.setDate(mybirth.getDate() + 10000);
+      console.log('탄생 10000일 기념일 : ', mybirth);
+
+      // 날짜 타입끼리 뺄셈 연산
+      mybirth = new Date('2000-1-1');
+      let diff = new Date() - mybirth;
+      console.log('날짜 타입의 뺄셈 연산:', diff);     //정수값.(단위ms)
+      // diff 를 `일` 단위로 바꾸는 연산
+      const $1day = 24*60*60*1000;
+      console.log('날짜 타입의 뺄셈 결과를 day : ', (diff / $1day));   //9020.4473009375
+      // Math의 메소드 : ceil(올림) , floor(내림), round(반올림)  는 실수를 정수로변환
+
+      function send(){
+        const regDate = document.getElementById('regDate').value;
+        alert('선택하신 날짜는 ' + regDate + ' 입니다.');
+      }
+    </script>
+</head>
+<body>
+    <h1>자바스크립트 Date 타입 복습</h1>
+    <p> 실행은 console 에 출력합니다. 개발자도구 - 콘솔 확인하세요.</p>
+    <label for="regDate"><input type="date" id="regDate"> </label>
+    <button onclick="send()" >선택1</button>
+    <button id="btnSend">선택2</button>
+    <script>
+      // input 의 모든 값들은 문자열 입니다.
+      // 초기 화면이 보일 때, 날짜를 오늘 날짜로 설정해보세요.
+      // document.getElementById('regDate').value=new Date()
+      // yyyy-MM-dd 문자열로 설정해야 합니다.
+      console.log(dateFormat(new Date(),'-'))
+      document.getElementById('regDate').value = dateFormat(new Date(),'-');
+
+      // 화면에 input 요소의 type="date" 이 있습니다.날짜를 선택하면 alert 으로 출력하기
+      document.getElementById('btnSend').addEventListener('click',function () {
+        const regDate = document.getElementById('regDate').value;
+        alert('선택하신 날짜는 ' + regDate + ' 입니다.');
+      });
+
+      // 자바에서는 format 으로 패턴을 정할 수 있으나 , js 에서는 직접 함수를 만듭니다.
+      function dateFormat(vdate,symbol){
+        const year = vdate.getFullYear();
+        // padStart()메소드는 자리수를 맞춰줍니다. 2자리가 안되면 앞에 0을 붙입니다.
+        const month = (vdate.getMonth()+1).toString().padStart(2,'0');
+        const day = vdate.getDate().toString().padStart(2, '0');
+        return [year,month,day].join(symbol)
+
+      }
+    </script>
+</body>
+</html>

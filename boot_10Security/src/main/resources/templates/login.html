@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인</title>
+    <style>
+      #incorrect {
+        display: none;
+        color: red;
+      }
+      .width30 {
+        width: 300px;
+      }
+    </style>
+
+</head>
+<body>
+  <div class="container mt-3 width30">
+    <h2>회원 로그인</h2>
+    <hr/>
+    <label id="incorrect">계정 정보가 일치하지 않습니다.</label>
+    <form action="/login" method="post">
+      <div class="mb-3 mt-3">
+        <label for="userid">이메일</label>
+        <input class="form-control" id="userid" placeholder="Enter id"
+               name="username" required>
+      </div>
+      <div class="mb-3">
+        <label for="password">패스워드:</label>
+        <input type="password" class="form-control" id="password" placeholder="Enter password"
+               name="password" required>
+      </div>
+      <div class="form-check mb-3">
+        <label class="form-check-label">
+          <input class="form-check-input" type="checkbox" name="remember-me"> Remember me
+        </label>
+      </div>
+      <button type="submit" class="btn btn-primary">로그인</button>
+      <button type="button" class="btn btn-primary"
+              onclick="location.href='/'">HOME</button>
+     <!-- <input type="hidden" th:name="${_csrf.parameterName}"
+             th:value="${_csrf.token}" />-->
+    </form>
+
+  </div>
+
+</body>
+</html>

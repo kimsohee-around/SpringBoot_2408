@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>3_problem.html</title>
+</head>
+<body>
+<!-- 1. 입실날짜는 오늘 날짜로 초기화 합니다.
+2. 퇴실날짜는 선택한 숙박일수 + 입실날짜로 합니다.  8/2 입실 + 3박 = 8/5
+3. 퇴실날짜는 select 태그에서 숙박일수 선택하면 계산해서 표시합니다.
+                         ㄴ click , change 이벤트
+4. 입실날짜는 오늘 이전 날짜는 선택을 못하도록 해야합니다.(input 태그 min 속성)
+   입실날짜는 오늘 ~ 3달 이후로만 설정할 수 있습니다.(input 태그 max 속성)
+**참고 : input type=date 인 경우 value 는
+'년도4자리-월2자리-일2자리' 문자열로 설정됩니다.**
+ form 태그는 동기식으로 서버에 전송할 때만 사용합니다.
+-->
+    <div>
+        <label for="selectNight"> 숙박일수 :
+            <select id="selectNight">
+                <option value="0">선택</option>
+                <option value="1">1박</option>
+                <option value="2">2박</option>
+                <option value="3">3박</option>
+                <option value="4">4박</option>
+            </select>
+        </label>
+        <label for="enterDate">입실 날짜:
+            <input type="date" id="enterDate">
+        </label>
+        <label for="outDate"> 퇴실 날짜:
+            <input type="date" id="outDate" readonly>
+        </label>
+    </div>
+
+
+<script>
+
+    //요소가 const, value 는 변경가능
+    const enterDate = document.getElementById('enterDate')
+    const outDate = document.getElementById('outDate')
+    const selectNight = document.getElementById('selectNight')
+
+    setMinMax();
+            /* select 태그의 onclick */
+    document.getElementById('selectNight').addEventListener('change', printOutDate)
+    document.getElementById('enterDate').addEventListener('change', printOutDate)
+
+    function setMinMax(){
+        let temp = new Date();
+        enterDate.value = dateFormat(temp,'-');
+        enterDate.min = dateFormat(temp,'-');
+        temp.setMonth(temp.getMonth()+3)
+        enterDate.max = dateFormat(temp,'-')
+    }
+
+    //입실날짜 또는 숙박일수 변경되면 실행하는 함수. 해당 값들을 가져와서 저장 꼭 합니다.
+    function printOutDate(){
+        const enter = enterDate.value
+        const nights = selectNight.value
+        console.log(nights)
+        let out = new Date(enter);
+        console.log(typeof out)
+        out.setDate(out.getDate() + Number(nights));
+        outDate.value = dateFormat(out, '-');
+    }
+
+    function dateFormat(vdate,symbol){
+        const year = vdate.getFullYear();
+        // padStart()메소드는 자리수를 맞춰줍니다. 2자리가 안되면 앞에 0을 붙입니다.
+        const month = (vdate.getMonth()+1).toString().padStart(2,'0');
+        const day = vdate.getDate().toString().padStart(2, '0');
+        return [year,month,day].join(symbol)
+    }
+
+</script>
+</body>
+</html>
+<!--  040548049c66599f6c14e5b2374620c0 -->

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>INDEX</title>
+    <link rel="stylesheet" href="/css/sample.css"/>
+</head>
+<body>
+<h1>INDEX</h1>
+<ul>
+  <li><a href="/">홈</a></li>
+  <th:block th:if="${username==null}">
+    <li><a href="/login">로그인</a></li>
+    <li><a href="/signup">회원가입</a></li>
+  </th:block>
+    <!-- unless 는 else 에 해당합니다.-->
+  <th:block th:unless="${username==null}">
+    <li><a href="/logout">GET 로그아웃</a></li>
+  <li>
+      <form action="/logout" method="POST">
+          <button type="submit">POST 로그아웃</button>
+<!--      <input type="hidden" th:name="${_csrf.parameterName}"
+             th:value="${_csrf.token}" />-->
+      </form>
+  </li>
+  </th:block>
+</ul>
+<ul>
+  <li><a href="/community/list">/community/list</a></li>
+  <li><a href="/community/write">/community/write</a></li>
+  <li><a href="/community/modify">/community/modify</a></li>
+</ul>
+<ul>
+  <li><a href="/admin/list"
+      sec:authorize="hasRole('ROLE_ADMIN')">관리자 접근 /admin/list</a></li>
+</ul>
+<hr>
+
+<span th:if="${username != null}">[[${username}]] 님! </span>
+<hr>
+<h2>타임리프 시큐리티 사용한 메뉴 제어</h2>
+<th:block sec:authorize="isAuthenticated()">
+    <span th:text="${#authentication.name}"></span>
+    <span th:text="${#authentication.authorities}"></span>
+    <span>
+        <a href="/logout">로그아웃</a>
+    </span>
+    <h5>커스텀 User 클래스 객체의 새로운 자식 필드</h5>
+    <span th:text="${#authentication.principal.social}"></span>
+</th:block>
+<div>
+    <a href="/login" sec:authorize="isAnonymous()">로그인</a>
+    <a href="/signup" sec:authorize="isAnonymous()">회원가입</a>
+</div>
+
+</body>
+</html>
